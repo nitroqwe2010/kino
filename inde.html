@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stile.css">
+    <title>Movie Schedule</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Current Movies Schedule</h1>
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Search for a movie..." onkeyup="searchMovie()">
+            <select id="genre-filter" onchange="filterByGenre()">
+                <option value="">All Genres</option>
+                <option value="Action">Action</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Sci-Fi">Sci-Fi</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Horror">Horror</option>
+                <option value="Drama">Drama</option>
+                <option value="Thriller">Thriller</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Crime">Crime</option>
+            </select>
+        </div>
+        <div id="movies-container"></div>
+    </div>
+    <script>
+        const movies = [];
+        const movieNames = [
+            "The Last Kingdom", "Shadow Warriors", "Cyber Revolt", "Lost in Time", "The Space Odyssey",
+            "Ghost City", "Skyfall Legacy", "Frozen Empire", "The Forbidden Code", "Neon Samurai",
+            "Echoes of the Past", "Crimson Horizon", "Dark Matter", "Phantom Chronicles", "Storm Chasers",
+            "Mystic Falls", "Eternal Night", "The Guardian Code", "Celestial Wars", "Titan Reborn",
+            "The Crimson Mask", "Beyond the Void", "Infinity Quest", "Shadow of Destiny", "Lunar Eclipse",
+            "The Silent Assassin", "Forsaken Lands", "Empire of Shadows", "Dreamcatcher", "The Astral Gate",
+            "Parallel Universe", "Time Warp", "Secrets of Atlantis", "Cosmic Voyage", "Neon City",
+            "The Iron Fist", "Dark Phoenix", "Legend of the Lost", "Wasteland Warriors", "Solar Flare",
+            "Quantum Shift", "The Enigma Code", "Rogue Syndicate", "The Forgotten Prophecy", "Twilight Echo",
+            "Galactic Outlaws", "Underworld Rising", "Vortex Chronicles", "Shattered Reality", "Nemesis Rising"
+        ];
+        const genres = ["Action", "Adventure", "Sci-Fi", "Fantasy", "Drama", "Horror", "Thriller", "Comedy", "Mystery", "Crime"];
+
+        for (let i = 0; i < 50; i++) {
+            movies.push({
+                "title": movieNames[i],
+                "year": 2025,
+                "releaseDate": `2025-${(i % 12) + 1}-15`,
+                "genre": genres[i % genres.length],
+                "image": "https://imgcinemas.it/wp-content/uploads/2025/02/lacittaproibita_1920x1080.jpg",
+                "sessions": [
+                    "12:30 - 50 000 so'm", 
+                    "16:35 - 60 000 so'm", 
+                    "21:10 - 70 000 so'm"
+                ],
+            });
+        }
+
+        const container = document.getElementById("movies-container");
+        
+        function displayMovies(movieList) {
+            container.innerHTML = "";
+            movieList.forEach(movie => {
+                const movieCard = document.createElement("div");
+                movieCard.classList.add("movie-card");
+                movieCard.innerHTML = `
+                    <img src="${movie.image}" alt="${movie.title}">
+                    <h3>${movie.title} (${movie.year})</h3>
+                    <p><strong>Release Date:</strong> ${movie.releaseDate}</p>
+                    <p><strong>Genre:</strong> ${movie.genre}</p>
+                    <p>Seans vaqtlari:</p>
+                    <ul>${movie.sessions.map(time => `<li>${time}</li>`).join('')}</ul>
+                `;
+                container.appendChild(movieCard);
+            });
+        }
+        
+        function searchMovie() {
+            const query = document.getElementById("search").value.toLowerCase();
+            const filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+            displayMovies(filteredMovies);
+        }
+
+        function filterByGenre() {
+            const selectedGenre = document.getElementById("genre-filter").value;
+            const filteredMovies = selectedGenre ? movies.filter(movie => movie.genre === selectedGenre) : movies;
+            displayMovies(filteredMovies);
+        }
+        
+        displayMovies(movies);
+    </script>
+</body>
+</html>
